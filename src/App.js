@@ -13,7 +13,7 @@ function App() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					Learn React
+					VISUAL TEST TO CONFIRM VERCEL IS WORKING
 				</a>
 			</header>
 		</div>
