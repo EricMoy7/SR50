@@ -36,21 +36,39 @@ export default function FinanceForm() {
 		>
 			<div>
 				<TextField
-					type="text"
-					id="outlined-required"
+					type="number"
+					id="takeHomePay"
 					label="Take Home Pay"
 					name="takeHomePay"
-					defaultValue="Hello World"
 					value={financialData.takeHomePay}
 					onChange={(e) => handleChange(e)}
 				/>
+
 				<TextField
-					id="outlined-number"
-					label="Number"
 					type="number"
-					InputLabelProps={{
-						shrink: true,
-					}}
+					id="checkingAccountBalance"
+					label="Checking Account Balance"
+					name="checkingAccountBalance"
+					value={financialData.checkingAccountBalance}
+					onChange={(e) => handleChange(e)}
+				/>
+
+				<TextField
+					type="number"
+					id="savingsAccountBalance"
+					label="Savings Account Balance"
+					name="savingsAccountBalance"
+					value={financialData.savingsAccountBalance}
+					onChange={(e) => handleChange(e)}
+				/>
+
+				<TextField
+					type="number"
+					id="housingBurn"
+					label="Housing Burn"
+					name="housingBurn"
+					value={financialData.housingBurn}
+					onChange={(e) => handleChange(e)}
 				/>
 			</div>
 		</Box>
