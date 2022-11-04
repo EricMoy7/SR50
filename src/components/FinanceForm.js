@@ -3,6 +3,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
+// Redux Store
+import { useSelector, useDispatch } from 'react-redux';
+
 export default function FinanceForm() {
 	const [financialData, setFinancialData] = useState({
 		takeHomePay: '',
@@ -18,12 +21,34 @@ export default function FinanceForm() {
 		bigLifeGoalsBurn: '',
 	});
 
+	const [outputData, setOutputData] = useState({
+		savingsRate: 0,
+	});
+
 	const handleChange = (event) => {
 		setFinancialData({
 			...financialData,
-			[event.target.name]: event.target.value,
+			[event.target.name]: parseFloat(event.target.value),
 		});
 	};
+
+	//Handling if input changed
+	React.useEffect(() => {
+		const f = financialData;
+		const averageBurn =
+			f.housingBurn +
+			f.transportationBurn +
+			f.foodBurn +
+			f.insuranceBurn +
+			f.bigLifeGoalsBurn;
+
+		setOutputData({
+			...outputData,
+			savingsRate: 100 * ((f.takeHomePay - averageBurn) / f.takeHomePay),
+		});
+
+		console.log(outputData.savingsRate);
+	}, [financialData]);
 
 	return (
 		<Box
@@ -134,6 +159,13 @@ export default function FinanceForm() {
 					onChange={(e) => handleChange(e)}
 				/>
 			</div>
+
+			<br></br>
+			{/* Start of Output */}
+
+			<h3>
+				<b>Savings Rate: {outputData.savingsRate}</b>
+			</h3>
 		</Box>
 	);
 }
