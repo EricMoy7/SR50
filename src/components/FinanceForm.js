@@ -41,10 +41,37 @@ export default function FinanceForm() {
 			f.foodBurn +
 			f.insuranceBurn +
 			f.bigLifeGoalsBurn;
+		const bankBalance = f.checkingAccountBalance + f.savingsAccountBalance;
+		const savingsRate = 100 * ((f.takeHomePay - averageBurn) / f.takeHomePay);
+		const calcRunway = Math.floor(bankBalance / averageBurn);
+
+		let calcStage = 0;
+		if (f.passiveCashFlow > 3 * f.bigLifeGoalsBurn) {
+			calcStage = 7;
+		} else if (f.passiveCashFlow >= f.bigLifeGoalsBurn) {
+			calcStage = 6;
+		} else if (f.passiveCashFlow >= f.desiredLifestyleCost) {
+			calcStage = 5;
+		} else if (f.passiveCashFlow >= averageBurn) {
+			calcStage = 4;
+		} else if (
+			f.takeHomePay >= averageBurn &&
+			bankBalance >= averageBurn * 6 &&
+			f.badDebtBalance == 0
+		) {
+			calcStage = 3;
+		} else if (f.takeHomePay >= averageBurn && bankBalance >= averageBurn * 6) {
+			calcStage = 2;
+		} else if (f.takeHomePay >= averageBurn && bankBalance <= averageBurn * 6) {
+			calcStage = 1;
+		} else if (f.takeHomePay <= averageBurn) {
+			calcStage = 0;
+		}
 
 		setOutputData({
 			...outputData,
-			savingsRate: 100 * ((f.takeHomePay - averageBurn) / f.takeHomePay),
+			savingsRate: savingsRate,
+			calcRunway: calcRunway,
 		});
 
 		console.log(outputData.savingsRate);
@@ -165,6 +192,8 @@ export default function FinanceForm() {
 
 			<h3>
 				<b>Savings Rate: {outputData.savingsRate}</b>
+				<br></br>
+				<b>Runway: {outputData.calcRunway}</b>
 			</h3>
 		</Box>
 	);
