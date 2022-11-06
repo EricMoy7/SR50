@@ -72,9 +72,8 @@ export default function FinanceForm() {
 			...outputData,
 			savingsRate: savingsRate,
 			calcRunway: calcRunway,
+			calcStage: calcStage,
 		});
-
-		console.log(outputData.savingsRate);
 	}, [financialData]);
 
 	return (
@@ -194,6 +193,8 @@ export default function FinanceForm() {
 				<b>Savings Rate: {outputData.savingsRate}</b>
 				<br></br>
 				<b>Runway: {outputData.calcRunway}</b>
+				<br></br>
+				<b>Stage: {outputData.callcStage}</b>
 			</h3>
 		</Box>
 	);
