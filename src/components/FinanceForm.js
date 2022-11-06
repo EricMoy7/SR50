@@ -194,7 +194,7 @@ export default function FinanceForm() {
 				<br></br>
 				<b>Runway: {outputData.calcRunway}</b>
 				<br></br>
-				<b>Stage: {outputData.callcStage}</b>
+				<b>Stage: {outputData.calcStage}</b>
 			</h3>
 		</Box>
 	);
