@@ -36,36 +36,41 @@ export default function FinanceForm() {
 	React.useEffect(() => {
 		const f = financialData;
 		const averageBurn =
-			f.housingBurn +
-			f.transportationBurn +
-			f.foodBurn +
-			f.insuranceBurn +
-			f.bigLifeGoalsBurn;
+			f.housingBurn + f.transportationBurn + f.foodBurn + f.insuranceBurn;
 		const bankBalance = f.checkingAccountBalance + f.savingsAccountBalance;
 		const savingsRate = 100 * ((f.takeHomePay - averageBurn) / f.takeHomePay);
 		const calcRunway = Math.floor(bankBalance / averageBurn);
 
 		let calcStage = 0;
-		if (f.passiveCashFlow > 3 * f.bigLifeGoalsBurn) {
-			calcStage = 7;
-		} else if (f.passiveCashFlow >= f.bigLifeGoalsBurn) {
-			calcStage = 6;
-		} else if (f.passiveCashFlow >= f.desiredLifestyleCost) {
-			calcStage = 5;
-		} else if (f.passiveCashFlow >= averageBurn) {
-			calcStage = 4;
+		if (f.takeHomePay <= averageBurn) {
+			calcStage = 0;
+		} else if (f.takeHomePay >= averageBurn && bankBalance <= averageBurn * 6) {
+			calcStage = 1;
+		} else if (f.takeHomePay >= averageBurn && bankBalance >= averageBurn * 6) {
+			calcStage = 2;
 		} else if (
 			f.takeHomePay >= averageBurn &&
 			bankBalance >= averageBurn * 6 &&
 			f.badDebtBalance == 0
 		) {
 			calcStage = 3;
-		} else if (f.takeHomePay >= averageBurn && bankBalance >= averageBurn * 6) {
-			calcStage = 2;
-		} else if (f.takeHomePay >= averageBurn && bankBalance <= averageBurn * 6) {
-			calcStage = 1;
-		} else if (f.takeHomePay <= averageBurn) {
-			calcStage = 0;
+		} else if (f.passiveCashFlow > 0 && f.passiveCashFlow >= averageBurn) {
+			calcStage = 4;
+		} else if (
+			f.passiveCashFlow > 0 &&
+			f.passiveCashFlow >= f.desiredLifestyleCost
+		) {
+			calcStage = 5;
+		} else if (
+			f.passiveCashFlow > 0 &&
+			f.passiveCashFlow >= f.bigLifeGoalsBurn
+		) {
+			calcStage = 6;
+		} else if (
+			f.passiveCashFlow > 0 &&
+			f.passiveCashFlow > 3 * f.bigLifeGoalsBurn
+		) {
+			calcStage = 7;
 		}
 
 		setOutputData({
@@ -89,7 +94,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="takeHomePay"
-					label="Take Home Pay"
+					label="Take Home Pay (Monthly)"
 					name="takeHomePay"
 					value={financialData.takeHomePay}
 					onChange={(e) => handleChange(e)}
@@ -116,7 +121,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="housingBurn"
-					label="Housing Burn"
+					label="Housing Burn (Monthly)"
 					name="housingBurn"
 					value={financialData.housingBurn}
 					onChange={(e) => handleChange(e)}
@@ -125,7 +130,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="transportationBurn"
-					label="Transportation Burn"
+					label="Transportation Burn (Monthly)"
 					name="transportationBurn"
 					value={financialData.transportationBurn}
 					onChange={(e) => handleChange(e)}
@@ -134,7 +139,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="foodBurn"
-					label="Food Burn"
+					label="Food Burn (Monthly)"
 					name="foodBurn"
 					value={financialData.foodBurn}
 					onChange={(e) => handleChange(e)}
@@ -143,7 +148,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="insuranceBurn"
-					label="Insurance Burn"
+					label="Insurance Burn (Monthly)"
 					name="insuranceBurn"
 					value={financialData.insuranceBurn}
 					onChange={(e) => handleChange(e)}
@@ -161,7 +166,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="passiveCashFlow"
-					label="Passive Cash Flow"
+					label="Passive Cash Flow (Monthly)"
 					name="passiveCashFlow"
 					value={financialData.passiveCashFlow}
 					onChange={(e) => handleChange(e)}
@@ -170,7 +175,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="desiredLifestyleCost"
-					label="Desired Lifestyle Cost"
+					label="Desired Lifestyle Cost (Monthly)"
 					name="desiredLifestyleCost"
 					value={financialData.desiredLifestyleCost}
 					onChange={(e) => handleChange(e)}
@@ -179,7 +184,7 @@ export default function FinanceForm() {
 				<TextField
 					type="number"
 					id="bigLifeGoalsBurn"
-					label="Big Life Goals Burn"
+					label="Big Life Goals Burn (Monthly)"
 					name="bigLifeGoalsBurn"
 					value={financialData.bigLifeGoalsBurn}
 					onChange={(e) => handleChange(e)}
@@ -190,9 +195,9 @@ export default function FinanceForm() {
 			{/* Start of Output */}
 
 			<h3>
-				<b>Savings Rate: {outputData.savingsRate}</b>
+				<b>Savings Rate: {outputData.savingsRate}%</b>
 				<br></br>
-				<b>Runway: {outputData.calcRunway}</b>
+				<b>Runway: {outputData.calcRunway} Months</b>
 				<br></br>
 				<b>Stage: {outputData.calcStage}</b>
 			</h3>
