@@ -42,25 +42,9 @@ export default function FinanceForm() {
 		const calcRunway = Math.floor(bankBalance / averageBurn);
 
 		let calcStage = 0;
-		if (f.takeHomePay <= averageBurn) {
-			calcStage = 0;
-		} else if (f.takeHomePay >= averageBurn && bankBalance <= averageBurn * 6) {
-			calcStage = 1;
-		} else if (f.takeHomePay >= averageBurn && bankBalance >= averageBurn * 6) {
-			calcStage = 2;
-		} else if (
-			f.takeHomePay >= averageBurn &&
-			bankBalance >= averageBurn * 6 &&
-			f.badDebtBalance == 0
-		) {
-			calcStage = 3;
-		} else if (f.passiveCashFlow > 0 && f.passiveCashFlow >= averageBurn) {
-			calcStage = 4;
-		} else if (
-			f.passiveCashFlow > 0 &&
-			f.passiveCashFlow >= f.desiredLifestyleCost
-		) {
-			calcStage = 5;
+
+		if (f.passiveCashFlow > 0 && f.passiveCashFlow > 3 * f.bigLifeGoalsBurn) {
+			calcStage = 7;
 		} else if (
 			f.passiveCashFlow > 0 &&
 			f.passiveCashFlow >= f.bigLifeGoalsBurn
@@ -68,9 +52,23 @@ export default function FinanceForm() {
 			calcStage = 6;
 		} else if (
 			f.passiveCashFlow > 0 &&
-			f.passiveCashFlow > 3 * f.bigLifeGoalsBurn
+			f.passiveCashFlow >= f.desiredLifestyleCost
 		) {
-			calcStage = 7;
+			calcStage = 5;
+		} else if (f.passiveCashFlow > 0 && f.passiveCashFlow >= averageBurn) {
+			calcStage = 4;
+		} else if (
+			f.takeHomePay >= averageBurn &&
+			bankBalance >= averageBurn * 6 &&
+			f.badDebtBalance == 0
+		) {
+			calcStage = 3;
+		} else if (f.takeHomePay >= averageBurn && bankBalance >= averageBurn * 6) {
+			calcStage = 2;
+		} else if (f.takeHomePay >= averageBurn && bankBalance <= averageBurn * 6) {
+			calcStage = 1;
+		} else if (f.takeHomePay <= averageBurn) {
+			calcStage = 0;
 		}
 
 		setOutputData({
