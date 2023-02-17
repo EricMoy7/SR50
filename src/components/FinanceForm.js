@@ -38,7 +38,9 @@ export default function FinanceForm() {
 		const averageBurn =
 			f.housingBurn + f.transportationBurn + f.foodBurn + f.insuranceBurn;
 		const bankBalance = f.checkingAccountBalance + f.savingsAccountBalance;
-		const savingsRate = 100 * ((f.takeHomePay - averageBurn) / f.takeHomePay);
+		const savingsRate = Math.Round(
+			100 * ((f.takeHomePay - averageBurn) / f.takeHomePay)
+		);
 		const calcRunway = Math.floor(bankBalance / averageBurn);
 
 		let calcStage = 0;
